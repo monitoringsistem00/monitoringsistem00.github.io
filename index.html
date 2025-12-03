@@ -630,10 +630,10 @@
     renderData();
 }
 
-function getSortIcon(column) {
-    if (sortColumn !== column) return '↕️';
-    return sortDirection === 'asc' ? '↑' : '↓';
-}
+        function getSortIcon(column) {
+            if (sortColumn !== column) return '↕️';
+            return sortDirection === 'asc' ? '↑' : '↓';
+        }
 
         function renderData() {
             const container = document.getElementById('dataContainer');
@@ -798,64 +798,64 @@ function getSortIcon(column) {
                 setTimeout(() => alert.remove(), 300);
             }, 3000);
         }
-function downloadPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('l', 'mm', 'a4'); // landscape orientation
-
-    // Header
-    doc.setFontSize(18);
-    doc.setTextColor(30, 60, 114);
-    doc.text('ONT Monitoring Dashboard', 14, 15);
-    
-    doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 22);
-    
-    // Stats
-    doc.setFontSize(11);
-    doc.setTextColor(0, 0, 0);
-    const stats = `Total ONT: ${allData.length} | Online: ${allData.filter(d => d.status.toLowerCase() === 'online').length} | Offline: ${allData.filter(d => d.status.toLowerCase() === 'offline').length}`;
-    doc.text(stats, 14, 29);
-
-    // Table
-    const tableData = filteredData.map((d, idx) => [
-        idx + 1,
-        d.id,
-        d.customerName,
-        d.location,
-        d.address,
-        d.status.toUpperCase(),
-        d.signal + ' dBm',
-        d.speed + ' Mbps',
-        d.lastUpdate
-    ]);
-
-    doc.autoTable({
-        startY: 35,
-        head: [['No', 'ID ONT', 'Pelanggan', 'Lokasi', 'Alamat', 'Status', 'Signal', 'Kecepatan', 'Update']],
-        body: tableData,
-        theme: 'striped',
-        headStyles: {
-            fillColor: [102, 126, 234],
-            textColor: 255,
-            fontStyle: 'bold'
-        },
-        styles: {
-            fontSize: 8,
-            cellPadding: 2
-        },
-        columnStyles: {
-            0: { cellWidth: 10 },
-            1: { cellWidth: 25 },
-            2: { cellWidth: 40 },
-            3: { cellWidth: 30 },
-            4: { cellWidth: 45 },
-            5: { cellWidth: 20 },
-            6: { cellWidth: 20 },
-            7: { cellWidth: 22 },
-            8: { cellWidth: 35 }
-        }
-    });
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('l', 'mm', 'a4'); // landscape orientation
+        
+            // Header
+            doc.setFontSize(18);
+            doc.setTextColor(30, 60, 114);
+            doc.text('ONT Monitoring Dashboard', 14, 15);
+            
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 22);
+            
+            // Stats
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0);
+            const stats = `Total ONT: ${allData.length} | Online: ${allData.filter(d => d.status.toLowerCase() === 'online').length} | Offline: ${allData.filter(d => d.status.toLowerCase() === 'offline').length}`;
+            doc.text(stats, 14, 29);
+        
+            // Table
+            const tableData = filteredData.map((d, idx) => [
+                idx + 1,
+                d.id,
+                d.customerName,
+                d.location,
+                d.address,
+                d.status.toUpperCase(),
+                d.signal + ' dBm',
+                d.speed + ' Mbps',
+                d.lastUpdate
+            ]);
+        
+            doc.autoTable({
+                startY: 35,
+                head: [['No', 'ID ONT', 'Pelanggan', 'Lokasi', 'Alamat', 'Status', 'Signal', 'Kecepatan', 'Update']],
+                body: tableData,
+                theme: 'striped',
+                headStyles: {
+                    fillColor: [102, 126, 234],
+                    textColor: 255,
+                    fontStyle: 'bold'
+                },
+                styles: {
+                    fontSize: 8,
+                    cellPadding: 2
+                },
+                columnStyles: {
+                    0: { cellWidth: 10 },
+                    1: { cellWidth: 25 },
+                    2: { cellWidth: 40 },
+                    3: { cellWidth: 30 },
+                    4: { cellWidth: 45 },
+                    5: { cellWidth: 20 },
+                    6: { cellWidth: 20 },
+                    7: { cellWidth: 22 },
+                    8: { cellWidth: 35 }
+                }
+            });
 
     // Footer
     const pageCount = doc.internal.getNumberOfPages();
@@ -873,4 +873,5 @@ function downloadPDF() {
     </script>
 </body>
 </html>
+
 
