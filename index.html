@@ -456,7 +456,9 @@
                 </div>
                 <div class="form-group">
                     <label>Lokasi *</label>
-                    <input type="text" id="location" required placeholder="Contoh: Jakarta Pusat">
+                    <select id="location" required>
+                        <option value="">-- Pilih Lokasi --</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label>Alamat Lengkap</label>
@@ -531,6 +533,7 @@
                 filteredData = [...allData];
                 updateStats();
                 updateLocationFilter();
+                updateLocationDropdown();
                 renderData();
                 
                 loadingMessage.style.display = 'none';
@@ -559,6 +562,15 @@
             const locations = [...new Set(allData.map(d => d.location))].sort();
             const select = document.getElementById('locationFilter');
             select.innerHTML = '<option value="">📍 Semua Lokasi</option>';
+            locations.forEach(loc => {
+                select.innerHTML += `<option value="${loc}">${loc}</option>`;
+            });
+        }
+
+        function updateLocationDropdown() {
+            const locations = [...new Set(allData.map(d => d.location))].sort();
+            const select = document.getElementById('location');
+            select.innerHTML = '<option value="">-- Pilih Lokasi --</option>';
             locations.forEach(loc => {
                 select.innerHTML += `<option value="${loc}">${loc}</option>`;
             });
@@ -662,6 +674,7 @@
             document.getElementById('modalTitle').textContent = 'Tambah Data ONT';
             document.getElementById('ontForm').reset();
             document.getElementById('editIndex').value = '';
+            updateLocationDropdown();
             document.getElementById('ontModal').classList.add('active');
         }
 
@@ -675,6 +688,7 @@
             document.getElementById('editIndex').value = index;
             document.getElementById('ontId').value = data.id;
             document.getElementById('customerName').value = data.customerName;
+            updateLocationDropdown();
             document.getElementById('location').value = data.location;
             document.getElementById('address').value = data.address;
             document.getElementById('status').value = data.status.toLowerCase();
@@ -723,6 +737,7 @@
             filteredData = [...allData];
             updateStats();
             updateLocationFilter();
+            updateLocationDropdown();
             renderData();
             closeModal();
         });
