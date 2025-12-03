@@ -491,10 +491,17 @@
             </form>
         </div>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <button class="btn btn-primary" onclick="downloadPDF()">
+    📄 Download PDF
+</button>
+    
     <script>
         let allData = [];
         let filteredData = [];
+        let sortColumn = '';
+        let sortDirection = 'asc';
 
         const SHEET_ID = '1LtXcUBrG5kfT8lzs62QZ8v74fNiEjD9hDG6OVFX4Kfo';
         const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
@@ -594,6 +601,39 @@
 
             renderData();
         }
+        function sortData(column) {
+    if (sortColumn === column) {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+        sortColumn = column;
+        sortDirection = 'asc';
+    }
+
+    filteredData.sort((a, b) => {
+        let valA = a[column];
+        let valB = b[column];
+
+        // Handle numeric values
+        if (column === 'signal' || column === 'speed') {
+            valA = parseFloat(valA) || 0;
+            valB = parseFloat(valB) || 0;
+        } else {
+            valA = String(valA).toLowerCase();
+            valB = String(valB).toLowerCase();
+        }
+
+        if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
+        if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
+        return 0;
+    });
+
+    renderData();
+}
+
+function getSortIcon(column) {
+    if (sortColumn !== column) return '↕️';
+    return sortDirection === 'asc' ? '↑' : '↓';
+}
 
         function renderData() {
             const container = document.getElementById('dataContainer');
@@ -631,15 +671,15 @@
                         <div class="table-container">
                             <table>
                                 <thead>
-                                    <tr>
+                                     <tr>
                                         <th>No</th>
-                                        <th>ID ONT</th>
-                                        <th>Nama Pelanggan</th>
+                                        <th onclick="sortData('id')" style="cursor: pointer;">ID ONT ${getSortIcon('id')}</th>
+                                        <th onclick="sortData('customerName')" style="cursor: pointer;">Nama Pelanggan ${getSortIcon('customerName')}</th>
                                         <th>Alamat</th>
-                                        <th>Status</th>
-                                        <th>Signal</th>
-                                        <th>Kecepatan</th>
-                                        <th>Update Terakhir</th>
+                                        <th onclick="sortData('status')" style="cursor: pointer;">Status ${getSortIcon('status')}</th>
+                                        <th onclick="sortData('signal')" style="cursor: pointer;">Signal ${getSortIcon('signal')}</th>
+                                        <th onclick="sortData('speed')" style="cursor: pointer;">Kecepatan ${getSortIcon('speed')}</th>
+                                        <th onclick="sortData('lastUpdate')" style="cursor: pointer;">Update Terakhir ${getSortIcon('lastUpdate')}</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -758,8 +798,79 @@
                 setTimeout(() => alert.remove(), 300);
             }, 3000);
         }
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('l', 'mm', 'a4'); // landscape orientation
 
+    // Header
+    doc.setFontSize(18);
+    doc.setTextColor(30, 60, 114);
+    doc.text('ONT Monitoring Dashboard', 14, 15);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 22);
+    
+    // Stats
+    doc.setFontSize(11);
+    doc.setTextColor(0, 0, 0);
+    const stats = `Total ONT: ${allData.length} | Online: ${allData.filter(d => d.status.toLowerCase() === 'online').length} | Offline: ${allData.filter(d => d.status.toLowerCase() === 'offline').length}`;
+    doc.text(stats, 14, 29);
+
+    // Table
+    const tableData = filteredData.map((d, idx) => [
+        idx + 1,
+        d.id,
+        d.customerName,
+        d.location,
+        d.address,
+        d.status.toUpperCase(),
+        d.signal + ' dBm',
+        d.speed + ' Mbps',
+        d.lastUpdate
+    ]);
+
+    doc.autoTable({
+        startY: 35,
+        head: [['No', 'ID ONT', 'Pelanggan', 'Lokasi', 'Alamat', 'Status', 'Signal', 'Kecepatan', 'Update']],
+        body: tableData,
+        theme: 'striped',
+        headStyles: {
+            fillColor: [102, 126, 234],
+            textColor: 255,
+            fontStyle: 'bold'
+        },
+        styles: {
+            fontSize: 8,
+            cellPadding: 2
+        },
+        columnStyles: {
+            0: { cellWidth: 10 },
+            1: { cellWidth: 25 },
+            2: { cellWidth: 40 },
+            3: { cellWidth: 30 },
+            4: { cellWidth: 45 },
+            5: { cellWidth: 20 },
+            6: { cellWidth: 20 },
+            7: { cellWidth: 22 },
+            8: { cellWidth: 35 }
+        }
+    });
+
+    // Footer
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150);
+        doc.text(`Halaman ${i} dari ${pageCount}`, doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 10, { align: 'center' });
+    }
+
+    doc.save(`ONT-Monitoring-${new Date().toISOString().split('T')[0]}.pdf`);
+    showAlert('PDF berhasil didownload!', 'success');
+}
         loadData();
     </script>
 </body>
 </html>
+
