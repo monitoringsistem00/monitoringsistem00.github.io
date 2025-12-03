@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoring Dashboard - Login</title>
+    <title>ONT Monitoring Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -12,161 +12,157 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        .hidden {
-            display: none !important;
-        }
-        
-        /* Login Page Styles */
-        .login-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .login-container {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            width: 400px;
-        }
-        .login-container h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 2em;
-        }
-        .login-container .info {
-            background-color: #e7f3fe;
-            border-left: 4px solid #2196F3;
-            padding: 15px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        .login-container input[type="text"],
-        .login-container input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border 0.3s;
-        }
-        .login-container input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        .login-container button {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            margin-top: 10px;
-            transition: transform 0.3s;
-        }
-        .login-container button:hover {
-            transform: scale(1.02);
-        }
-        .error {
-            color: #f44336;
-            text-align: center;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        /* Dashboard Styles */
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
         }
         header {
             background: white;
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
             margin-bottom: 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-        .header-left h1 {
-            color: #333;
+        .header-content h1 {
+            color: #1e3c72;
             font-size: 2.5em;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
-        .subtitle {
+        .header-content p {
             color: #666;
             font-size: 1.1em;
         }
-        .header-right {
-            text-align: right;
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
         }
-        .user-info {
-            color: #666;
-            margin-bottom: 10px;
-        }
-        .logout-btn {
-            background: linear-gradient(135deg, #f44336 0%, #e91e63 100%);
-            color: white;
+        .btn {
+            padding: 12px 25px;
             border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
+            border-radius: 25px;
             cursor: pointer;
+            font-size: 1em;
             font-weight: bold;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        .logout-btn:hover {
-            transform: scale(1.05);
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 239, 125, 0.4);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
+        }
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(235, 51, 73, 0.4);
+        }
+        .btn-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9em;
         }
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
         .stat-card {
             background: white;
             padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             text-align: center;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
         }
         .stat-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
         .stat-card h3 {
             color: #666;
             font-size: 0.9em;
             text-transform: uppercase;
             margin-bottom: 10px;
+            letter-spacing: 1px;
         }
         .stat-card .value {
-            font-size: 2.5em;
+            font-size: 2.8em;
             font-weight: bold;
-            color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .status-online {
-            color: #4CAF50;
+        .search-filter {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
         }
-        .status-offline {
-            color: #f44336;
+        .search-filter input, .search-filter select {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        .search-filter input:focus, .search-filter select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         .table-container {
             background: white;
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
             overflow-x: auto;
         }
         table {
@@ -180,18 +176,25 @@
             text-align: left;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.9em;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+        }
+        th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+        th:last-child {
+            border-radius: 0 10px 0 0;
         }
         td {
             padding: 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #f0f0f0;
         }
         tr:hover {
-            background: #f8f9fa;
+            background: #f8f9ff;
         }
         .status-badge {
             display: inline-block;
-            padding: 5px 15px;
+            padding: 6px 15px;
             border-radius: 20px;
             font-size: 0.85em;
             font-weight: bold;
@@ -204,274 +207,544 @@
             background: #f8d7da;
             color: #721c24;
         }
+        .badge-maintenance {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            padding: 35px;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .modal-header h2 {
+            color: #1e3c72;
+            font-size: 1.8em;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2em;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+        .close-btn:hover {
+            color: #eb3349;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
         .loading {
             text-align: center;
             padding: 50px;
-            color: #666;
-            font-size: 1.2em;
+            color: white;
+            font-size: 1.3em;
         }
-        .refresh-btn {
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 15px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        .empty-state .icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+        .location-group {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        .location-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+        }
+        .location-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        .location-count {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            margin-top: 20px;
-            transition: transform 0.3s;
-        }
-        .refresh-btn:hover {
-            transform: scale(1.05);
-        }
-        .last-update {
-            text-align: center;
-            color: white;
-            margin-top: 20px;
+            padding: 5px 15px;
+            border-radius: 20px;
             font-size: 0.9em;
         }
-        .error-message {
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .alert.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        .alert-error {
             background: #f8d7da;
             color: #721c24;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            text-align: center;
+            border-left: 4px solid #dc3545;
         }
     </style>
 </head>
 <body>
-    <!-- Login Page -->
-    <div id="loginPage" class="login-wrapper">
-        <div class="login-container">
-            <h2>🔐 Login</h2>
-            <div class="info">
-                <strong>Demo Login:</strong><br>
-                Username: admin<br>
-                Password: password
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>🌐 ONT Monitoring Dashboard</h1>
+                <p>Sistem Manajemen Data ONT Real-time</p>
             </div>
-            <p id="errorMessage" class="error hidden">Username atau password salah!</p>
-            <form id="loginForm">
-                <input type="text" id="username" name="username" placeholder="Username" required>
-                <input type="password" id="password" name="password" placeholder="Password" required>
-                <button type="submit">Login</button>
+            <div class="header-actions">
+                <button class="btn btn-success" onclick="openAddModal()">
+                    ➕ Tambah Data ONT
+                </button>
+                <button class="btn btn-primary" onclick="loadData()">
+                    🔄 Refresh Data
+                </button>
+            </div>
+        </header>
+
+        <div id="alertContainer"></div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>📊 Total ONT</h3>
+                <div class="value" id="totalONT">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>✅ Online</h3>
+                <div class="value" style="color: #28a745;" id="onlineONT">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>❌ Offline</h3>
+                <div class="value" style="color: #dc3545;" id="offlineONT">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>📍 Lokasi</h3>
+                <div class="value" id="totalLocations">0</div>
+            </div>
+        </div>
+
+        <div class="search-filter">
+            <input type="text" id="searchInput" placeholder="🔍 Cari berdasarkan nama, lokasi, atau ID ONT..." onkeyup="filterData()">
+            <select id="locationFilter" onchange="filterData()">
+                <option value="">📍 Semua Lokasi</option>
+            </select>
+            <select id="statusFilter" onchange="filterData()">
+                <option value="">📊 Semua Status</option>
+                <option value="online">✅ Online</option>
+                <option value="offline">❌ Offline</option>
+                <option value="maintenance">🔧 Maintenance</option>
+            </select>
+        </div>
+
+        <div id="loadingMessage" class="loading">Memuat data...</div>
+        
+        <div id="dataContainer" style="display: none;"></div>
+    </div>
+
+    <!-- Modal Add/Edit -->
+    <div id="ontModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Tambah Data ONT</h2>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <form id="ontForm">
+                <input type="hidden" id="editIndex">
+                <div class="form-group">
+                    <label>ID ONT *</label>
+                    <input type="text" id="ontId" required placeholder="Contoh: ONT-001">
+                </div>
+                <div class="form-group">
+                    <label>Nama Pelanggan *</label>
+                    <input type="text" id="customerName" required placeholder="Contoh: PT. Telkom Indonesia">
+                </div>
+                <div class="form-group">
+                    <label>Lokasi *</label>
+                    <input type="text" id="location" required placeholder="Contoh: Jakarta Pusat">
+                </div>
+                <div class="form-group">
+                    <label>Alamat Lengkap</label>
+                    <textarea id="address" rows="3" placeholder="Masukkan alamat lengkap..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Status *</label>
+                    <select id="status" required>
+                        <option value="online">✅ Online</option>
+                        <option value="offline">❌ Offline</option>
+                        <option value="maintenance">🔧 Maintenance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Signal Strength (dBm)</label>
+                    <input type="text" id="signal" placeholder="Contoh: -25">
+                </div>
+                <div class="form-group">
+                    <label>Kecepatan (Mbps)</label>
+                    <input type="text" id="speed" placeholder="Contoh: 100">
+                </div>
+                <div class="form-group">
+                    <label>Catatan</label>
+                    <textarea id="notes" rows="2" placeholder="Catatan tambahan..."></textarea>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 25px;">
+                    <button type="submit" class="btn btn-success" style="flex: 1;">💾 Simpan</button>
+                    <button type="button" class="btn btn-danger" onclick="closeModal()" style="flex: 1;">❌ Batal</button>
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- Dashboard Page -->
-    <div id="dashboardPage" class="hidden">
-        <div class="container">
-            <header>
-                <div class="header-left">
-                    <h1>🖥️ Website Monitoring Dashboard</h1>
-                    <p class="subtitle">Real-time monitoring system status</p>
-                </div>
-                <div class="header-right">
-                    <div class="user-info">Welcome, <strong><span id="usernameDisplay"></span></strong></div>
-                    <button class="logout-btn" id="logoutBtn">Logout</button>
-                </div>
-            </header>
-
-            <div class="stats-grid" id="statsGrid">
-                <div class="stat-card">
-                    <h3>Total Websites</h3>
-                    <div class="value" id="totalSites">-</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Online</h3>
-                    <div class="value status-online" id="onlineSites">-</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Offline</h3>
-                    <div class="value status-offline" id="offlineSites">-</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Uptime</h3>
-                    <div class="value" id="uptime">-</div>
-                </div>
-            </div>
-
-            <div class="table-container">
-                <div id="loadingMessage" class="loading">Loading data...</div>
-                <div id="errorMessageTable" class="error-message" style="display: none;"></div>
-                <table id="monitoringTable" style="display: none;">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Website Name</th>
-                            <th>URL</th>
-                            <th>Status</th>
-                            <th>Response Time</th>
-                            <th>Last Check</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                    </tbody>
-                </table>
-                <div style="text-align: center;">
-                    <button class="refresh-btn" onclick="loadData()">🔄 Refresh Data</button>
-                </div>
-            </div>
-
-            <div class="last-update">
-                Last updated: <span id="lastUpdate">-</span>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // ============ LOGIN SYSTEM ============
-        const validUsername = 'admin';
-        const validPassword = 'password';
+        let allData = [];
+        let filteredData = [];
 
-        let session = {
-            loggedin: false,
-            username: ''
-        };
-
-        const loginPage = document.getElementById('loginPage');
-        const dashboardPage = document.getElementById('dashboardPage');
-        const loginForm = document.getElementById('loginForm');
-        const errorMessage = document.getElementById('errorMessage');
-        const usernameDisplay = document.getElementById('usernameDisplay');
-        const logoutBtn = document.getElementById('logoutBtn');
-
-        function checkSession() {
-            if (session.loggedin) {
-                showDashboard();
-            } else {
-                showLogin();
-            }
-        }
-
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === validUsername && password === validPassword) {
-                session.loggedin = true;
-                session.username = username;
-                showDashboard();
-            } else {
-                errorMessage.classList.remove('hidden');
-                document.getElementById('password').value = '';
-            }
-        });
-
-        logoutBtn.addEventListener('click', function() {
-            session.loggedin = false;
-            session.username = '';
-            showLogin();
-        });
-
-        function showDashboard() {
-            errorMessage.classList.add('hidden');
-            loginPage.classList.add('hidden');
-            dashboardPage.classList.remove('hidden');
-            usernameDisplay.textContent = session.username;
-            loadData();
-        }
-
-        function showLogin() {
-            dashboardPage.classList.add('hidden');
-            loginPage.classList.remove('hidden');
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            errorMessage.classList.add('hidden');
-        }
-
-        // ============ MONITORING DASHBOARD ============
         const SHEET_ID = '1LtXcUBrG5kfT8lzs62QZ8v74fNiEjD9hDG6OVFX4Kfo';
         const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
         async function loadData() {
             const loadingMessage = document.getElementById('loadingMessage');
-            const errorMessageTable = document.getElementById('errorMessageTable');
-            const table = document.getElementById('monitoringTable');
+            const dataContainer = document.getElementById('dataContainer');
             
             loadingMessage.style.display = 'block';
-            errorMessageTable.style.display = 'none';
-            table.style.display = 'none';
+            dataContainer.style.display = 'none';
 
             try {
                 const response = await fetch(SHEET_URL);
                 const text = await response.text();
-                
                 const jsonData = JSON.parse(text.substring(47).slice(0, -2));
                 const rows = jsonData.table.rows;
                 
                 if (rows.length < 2) {
-                    throw new Error('No data found in the sheet');
+                    showAlert('Tidak ada data di spreadsheet', 'error');
+                    return;
                 }
 
-                const data = rows.slice(1).map(row => ({
-                    name: row.c[0]?.v || 'N/A',
-                    url: row.c[1]?.v || 'N/A',
-                    status: row.c[2]?.v || 'Unknown',
-                    responseTime: row.c[3]?.v || 'N/A',
-                    lastCheck: row.c[4]?.v || 'N/A'
+                allData = rows.slice(1).map((row, index) => ({
+                    index: index,
+                    id: row.c[0]?.v || 'N/A',
+                    customerName: row.c[1]?.v || 'N/A',
+                    location: row.c[2]?.v || 'N/A',
+                    address: row.c[3]?.v || '-',
+                    status: row.c[4]?.v || 'offline',
+                    signal: row.c[5]?.v || '-',
+                    speed: row.c[6]?.v || '-',
+                    notes: row.c[7]?.v || '-',
+                    lastUpdate: row.c[8]?.v || new Date().toLocaleString()
                 }));
 
-                updateStats(data);
-                updateTable(data);
-                document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
-
+                filteredData = [...allData];
+                updateStats();
+                updateLocationFilter();
+                renderData();
+                
                 loadingMessage.style.display = 'none';
-                table.style.display = 'table';
+                dataContainer.style.display = 'block';
 
             } catch (error) {
-                console.error('Error loading data:', error);
+                console.error('Error:', error);
+                showAlert('Error memuat data. Pastikan Google Sheet sudah public!', 'error');
                 loadingMessage.style.display = 'none';
-                errorMessageTable.style.display = 'block';
-                errorMessageTable.textContent = '❌ Error loading data. Please check if the Google Sheet is publicly accessible.';
             }
         }
 
-        function updateStats(data) {
-            const total = data.length;
-            const online = data.filter(site => site.status.toLowerCase() === 'online').length;
-            const offline = total - online;
-            const uptime = total > 0 ? ((online / total) * 100).toFixed(1) + '%' : '0%';
+        function updateStats() {
+            const total = allData.length;
+            const online = allData.filter(d => d.status.toLowerCase() === 'online').length;
+            const offline = allData.filter(d => d.status.toLowerCase() === 'offline').length;
+            const locations = [...new Set(allData.map(d => d.location))].length;
 
-            document.getElementById('totalSites').textContent = total;
-            document.getElementById('onlineSites').textContent = online;
-            document.getElementById('offlineSites').textContent = offline;
-            document.getElementById('uptime').textContent = uptime;
+            document.getElementById('totalONT').textContent = total;
+            document.getElementById('onlineONT').textContent = online;
+            document.getElementById('offlineONT').textContent = offline;
+            document.getElementById('totalLocations').textContent = locations;
         }
 
-        function updateTable(data) {
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '';
-
-            data.forEach((site, index) => {
-                const row = document.createElement('tr');
-                const isOnline = site.status.toLowerCase() === 'online';
-                
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td><strong>${site.name}</strong></td>
-                    <td><a href="${site.url}" target="_blank" style="color: #667eea;">${site.url}</a></td>
-                    <td><span class="status-badge ${isOnline ? 'badge-online' : 'badge-offline'}">${site.status}</span></td>
-                    <td>${site.responseTime}</td>
-                    <td>${site.lastCheck}</td>
-                `;
-                tbody.appendChild(row);
+        function updateLocationFilter() {
+            const locations = [...new Set(allData.map(d => d.location))].sort();
+            const select = document.getElementById('locationFilter');
+            select.innerHTML = '<option value="">📍 Semua Lokasi</option>';
+            locations.forEach(loc => {
+                select.innerHTML += `<option value="${loc}">${loc}</option>`;
             });
         }
 
-        // Initialize
-        checkSession();
+        function filterData() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const location = document.getElementById('locationFilter').value;
+            const status = document.getElementById('statusFilter').value;
 
-        // Auto refresh every 60 seconds when logged in
-        setInterval(() => {
-            if (session.loggedin) {
-                loadData();
+            filteredData = allData.filter(d => {
+                const matchSearch = !search || 
+                    d.id.toLowerCase().includes(search) ||
+                    d.customerName.toLowerCase().includes(search) ||
+                    d.location.toLowerCase().includes(search);
+                const matchLocation = !location || d.location === location;
+                const matchStatus = !status || d.status.toLowerCase() === status;
+                
+                return matchSearch && matchLocation && matchStatus;
+            });
+
+            renderData();
+        }
+
+        function renderData() {
+            const container = document.getElementById('dataContainer');
+            
+            if (filteredData.length === 0) {
+                container.innerHTML = `
+                    <div class="table-container">
+                        <div class="empty-state">
+                            <div class="icon">📭</div>
+                            <h2>Tidak ada data ditemukan</h2>
+                            <p>Coba ubah filter atau tambah data baru</p>
+                        </div>
+                    </div>
+                `;
+                return;
             }
-        }, 60000);
+
+            const groupedData = {};
+            filteredData.forEach(d => {
+                if (!groupedData[d.location]) {
+                    groupedData[d.location] = [];
+                }
+                groupedData[d.location].push(d);
+            });
+
+            let html = '';
+            Object.keys(groupedData).sort().forEach(location => {
+                const data = groupedData[location];
+                html += `
+                    <div class="location-group">
+                        <div class="location-header">
+                            <span class="location-title">📍 ${location}</span>
+                            <span class="location-count">${data.length} ONT</span>
+                        </div>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>ID ONT</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Alamat</th>
+                                        <th>Status</th>
+                                        <th>Signal</th>
+                                        <th>Kecepatan</th>
+                                        <th>Update Terakhir</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${data.map((d, idx) => `
+                                        <tr>
+                                            <td>${idx + 1}</td>
+                                            <td><strong>${d.id}</strong></td>
+                                            <td>${d.customerName}</td>
+                                            <td>${d.address}</td>
+                                            <td><span class="status-badge badge-${d.status.toLowerCase()}">${d.status.toUpperCase()}</span></td>
+                                            <td>${d.signal} dBm</td>
+                                            <td>${d.speed} Mbps</td>
+                                            <td>${d.lastUpdate}</td>
+                                            <td>
+                                                <button class="btn btn-warning btn-small" onclick="editData(${d.index})">✏️ Edit</button>
+                                                <button class="btn btn-danger btn-small" onclick="deleteData(${d.index})">🗑️ Hapus</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = 'Tambah Data ONT';
+            document.getElementById('ontForm').reset();
+            document.getElementById('editIndex').value = '';
+            document.getElementById('ontModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('ontModal').classList.remove('active');
+        }
+
+        function editData(index) {
+            const data = allData[index];
+            document.getElementById('modalTitle').textContent = 'Edit Data ONT';
+            document.getElementById('editIndex').value = index;
+            document.getElementById('ontId').value = data.id;
+            document.getElementById('customerName').value = data.customerName;
+            document.getElementById('location').value = data.location;
+            document.getElementById('address').value = data.address;
+            document.getElementById('status').value = data.status.toLowerCase();
+            document.getElementById('signal').value = data.signal;
+            document.getElementById('speed').value = data.speed;
+            document.getElementById('notes').value = data.notes;
+            document.getElementById('ontModal').classList.add('active');
+        }
+
+        function deleteData(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                allData.splice(index, 0);
+                allData = allData.map((d, i) => ({...d, index: i}));
+                filteredData = [...allData];
+                updateStats();
+                renderData();
+                showAlert('Data berhasil dihapus! (Simulasi)', 'success');
+            }
+        }
+
+        document.getElementById('ontForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const editIndex = document.getElementById('editIndex').value;
+            const newData = {
+                id: document.getElementById('ontId').value,
+                customerName: document.getElementById('customerName').value,
+                location: document.getElementById('location').value,
+                address: document.getElementById('address').value,
+                status: document.getElementById('status').value,
+                signal: document.getElementById('signal').value,
+                speed: document.getElementById('speed').value,
+                notes: document.getElementById('notes').value,
+                lastUpdate: new Date().toLocaleString()
+            };
+
+            if (editIndex === '') {
+                newData.index = allData.length;
+                allData.push(newData);
+                showAlert('Data berhasil ditambahkan! (Simulasi)', 'success');
+            } else {
+                allData[editIndex] = {...allData[editIndex], ...newData};
+                showAlert('Data berhasil diupdate! (Simulasi)', 'success');
+            }
+
+            filteredData = [...allData];
+            updateStats();
+            updateLocationFilter();
+            renderData();
+            closeModal();
+        });
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+            const icon = type === 'success' ? '✅' : '❌';
+            
+            const alert = document.createElement('div');
+            alert.className = `alert ${alertClass} show`;
+            alert.innerHTML = `${icon} ${message}`;
+            
+            alertContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 300);
+            }, 3000);
+        }
+
+        loadData();
     </script>
 </body>
 </html>
